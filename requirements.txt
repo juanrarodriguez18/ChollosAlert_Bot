@@ -3,4 +3,5 @@ click
 tinydb==3.5.0
 pytz==2017.2
 schedule==0.4.3
+cryptography==1.5.3
 beautifulsoup4
