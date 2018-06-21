@@ -14,13 +14,31 @@
 #
 #     You should have received a copy of the GNU General Public License
 #     along with ChollosAlert Bot.  If not, see <http:#www.gnu.org/licenses/>.
-from telegram.ext import CommandHandler, CallbackQueryHandler, ConversationHandler, MessageHandler, \
-    RegexHandler, Filters
-
-from commands.generic import start, help, error
+import os
+from tinydb import TinyDB, Query
 
 
-def load_dispatcher(dispatcher):
-    dispatcher.add_handler(CommandHandler('start', start))
-    dispatcher.add_handler(CommandHandler('help', help))
-    
+db = None
+
+
+def get_dbc():
+    return db
+
+
+def set_dbc(dbc):
+    global db
+    db = dbc
+
+
+class DBC:
+    def __init__(self, path=None):
+        if path is None:
+            self.db = TinyDB(os.path.join('config', 'chollos-bot.json'))
+        else:
+            self.db = TinyDB(path)
+
+    def get_table(self, table_name):
+        return self.db.table(table_name)
+
+    def purge(self):
+        self.db.purge_tables()

@@ -102,3 +102,16 @@ venv.bak/
 
 # mypy
 .mypy_cache/
+
+# pycharm
+.idea/
+
+# vscode
+
+.vscode/
+
+# custom
+my-config/chollos-bot.json
+my-config/chollos-bot.log
+my-config/my_config.ini
+my-config/chollos-db.json

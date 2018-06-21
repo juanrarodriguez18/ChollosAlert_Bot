@@ -42,14 +42,14 @@ class Config:
         self.__set_telegram_admin_username(os.getenv('TELEGRAM_ADMIN_USERNAME', ""))
 
         # ========  Database
-        self.__set_db_path(os.getenv('TMAIL_DB_PATH', os.path.join("my-config", "notmail_bot-db.json")))
+        self.__set_db_path(os.getenv('DB_PATH', os.path.join("my-config", "chollos-db.json")))
 
         # ========  Email
-        self.__set_default_refresh_inbox(os.getenv('TMAIL_DEFAULT_REFRESH_TIME', 3 * 60))  # 3 minutos
+        self.__set_default_refresh_inbox(os.getenv('DEFAULT_REFRESH_TIME', 3 * 60))  # 3 minutos
 
         # ========  Log
-        self.__set_log_level(os.getenv('TMAIL_LOG_LEVEL', "INFO"))
-        self.__set_log_path(os.getenv('TMAIL_LOG_PATH', None))
+        self.__set_log_level(os.getenv('LOG_LEVEL', "INFO"))
+        self.__set_log_path(os.getenv('LOG_PATH', None))
 
     def load_config_file(self, path):
         if not is_path_exists_or_creatable_portable(path):
