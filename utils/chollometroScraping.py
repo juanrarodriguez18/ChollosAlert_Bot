@@ -23,17 +23,37 @@ import requests
 from bs4 import BeautifulSoup
 
 def extraer_datos_pagina():
-    url = 'https://www.chollometro.com'
+    url = 'https://www.chollometro.com/nuevos'
     headers = {'User-Agent':'Mozilla/5.0'}
 
 
     page = requests.get(url, headers=headers)
     soup = BeautifulSoup(page.text, "html.parser")
     chollos = soup.find_all('article')
-    print(chollos[0].find('strong', {"class": "thread-title"}).getText())
 
+    titulo_chollo = ''
+    comercio_chollo = ''
+    precio_chollo = ''
+    descripcion_chollo = ''
+    cupon_chollo = ''
+    link_chollo = ''
+    result = []
+
+    # Use "chcp 65001" command on windows console in order to show the string correctly
     for chollo in chollos:
         if chollo.find('strong', {"class": "thread-title"}) != None:
-            print(chollo.find('strong', {"class": "thread-title"}).text.encode("utf-8").strip())
+            titulo_chollo = chollo.find('strong', {"class": "thread-title"}).text.encode('utf-8').decode('utf-8').strip()
+        if chollo.find('span', {"class": "cept-merchant-name"}) != None:
+            comercio_chollo = chollo.find('span', {"class": "cept-merchant-name"}).text.encode('utf-8').decode('utf-8').strip()
+        if chollo.find('span', {"class": "thread-price"}) != None:
+            precio_chollo = chollo.find('span', {"class": "thread-price"}).text.encode('utf-8').decode('utf-8').strip()
+        if chollo.find('div', {"class": "cept-description-container"}) != None:
+            descripcion_chollo = chollo.find('div', {"class": "cept-description-container"}).text.encode('utf-8').decode('utf-8').strip()
+        if chollo.find('div', {"class": "voucher"}) != None:
+            cupon_chollo = chollo.find('div', {"class": "voucher"}).find('input').get('value').encode('utf-8').decode('utf-8').strip()
+        if chollo.find('a', {"class": "btn--mode-primary"}) != None:
+            link_chollo = chollo.find('a', {"class": "btn--mode-primary"}).get('href').encode('utf-8').decode('utf-8').strip()
+        # print(titulo_chollo+' - '+comercio_chollo+' - '+precio_chollo+' - '+descripcion_chollo+' - '+cupon_chollo+' - '+link_chollo)
+
 
 extraer_datos_pagina()
