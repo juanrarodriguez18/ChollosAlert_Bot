@@ -19,6 +19,7 @@
 import codecs
 import sys
 import requests
+# from repository.chollo import Chollo
 
 from bs4 import BeautifulSoup
 
@@ -53,7 +54,11 @@ def extraer_datos_pagina():
             cupon_chollo = chollo.find('div', {"class": "voucher"}).find('input').get('value').encode('utf-8').decode('utf-8').strip()
         if chollo.find('a', {"class": "btn--mode-primary"}) != None:
             link_chollo = chollo.find('a', {"class": "btn--mode-primary"}).get('href').encode('utf-8').decode('utf-8').strip()
-        # print(titulo_chollo+' - '+comercio_chollo+' - '+precio_chollo+' - '+descripcion_chollo+' - '+cupon_chollo+' - '+link_chollo)
+        # cholloObject = Chollo(titulo_chollo, comercio_chollo, precio_chollo, descripcion_chollo, cupon_chollo, link_chollo)
+        # result.append(cholloObject)
+        print(titulo_chollo+' - '+comercio_chollo+' - '+precio_chollo+' - '+descripcion_chollo+' - '+cupon_chollo+' - '+link_chollo)
+    
+    return result
 
 
 extraer_datos_pagina()
