@@ -33,12 +33,33 @@ def set_dbc(dbc):
 class DBC:
     def __init__(self, path=None):
         if path is None:
-            self.db = TinyDB(os.path.join('config', 'chollos-bot.json'))
+            self.db = TinyDB(os.path.join('my-config', 'chollos-db.json'))
         else:
             self.db = TinyDB(path)
+        user_configuration = self.db.table('UserConfiguration')
+        if len(self.db.table('UserConfiguration').all())==0:
+            user_configuration.insert({'keywords': '*', 'merchants': '*'})
 
     def get_table(self, table_name):
         return self.db.table(table_name)
 
     def purge(self):
         self.db.purge_tables()
+    
+    def get_keywords(self):
+        return self.db.table('UserConfiguration').all()[0]['keywords']
+
+    def get_merchants(self):
+        return self.db.table('UserConfiguration').all()[0]['merchants']
+
+    def modify_keywords(self, keywords):
+        user_configuration = self.db.table('UserConfiguration')
+        query = Query()
+        user_configuration.update({'keywords': keywords},
+                             query.merchants == user_configuration.all()[0]['merchants'])
+
+    def modify_merchants(self, merchants):
+        user_configuration = self.db.table('UserConfiguration')
+        query = Query()
+        user_configuration.update({'merchants': merchants},
+                             query.keywords == user_configuration.all()[0]['keywords'])

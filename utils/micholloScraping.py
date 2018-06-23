@@ -53,8 +53,8 @@ def extraer_datos_pagina():
         if chollo.find('a', {"class": "btn_offer_block"}) != None:
             link_chollo = chollo.find('a', {"class": "btn_offer_block"}).get('href').encode('utf-8').decode('utf-8').strip()
         print(titulo_chollo+" - "+precio_chollo+" - "+descripcion_chollo+" - "+cupon_chollo+" - "+link_chollo)
-        cholloObject = Chollo(titulo_chollo, comercio_chollo, precio_chollo, descripcion_chollo, cupon_chollo, link_chollo)
-        result.append(cholloObject)
+        chollo_object = Chollo(titulo_chollo, comercio_chollo, precio_chollo, descripcion_chollo, cupon_chollo, link_chollo)
+        result.append(chollo_object)
         print(titulo_chollo+' - '+comercio_chollo+' - '+precio_chollo+' - '+descripcion_chollo+' - '+cupon_chollo+' - '+link_chollo)
     
     return result
