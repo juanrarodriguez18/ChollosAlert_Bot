@@ -16,15 +16,13 @@
 #     along with ChollosAlert Bot.  If not, see <http:#www.gnu.org/licenses/>.
 
 # encoding:utf-8
-import codecs
-import sys
 import requests
 from repository.chollo import Chollo
 
 from bs4 import BeautifulSoup
 
 
-def extraer_datos_pagina():
+def extraer_datos_pagina_michollo():
     url = 'https://michollo.com'
     headers = {'User-Agent': 'Mozilla/5.0'}
 
@@ -52,10 +50,8 @@ def extraer_datos_pagina():
             cupon_chollo = chollo.find('span', {"class": "coupon_text"}).text.encode('utf-8').decode('utf-8').strip()
         if chollo.find('a', {"class": "btn_offer_block"}) != None:
             link_chollo = chollo.find('a', {"class": "btn_offer_block"}).get('href').encode('utf-8').decode('utf-8').strip()
-        print(titulo_chollo+" - "+precio_chollo+" - "+descripcion_chollo+" - "+cupon_chollo+" - "+link_chollo)
         chollo_object = Chollo(titulo_chollo, comercio_chollo, precio_chollo, descripcion_chollo, cupon_chollo, link_chollo)
         result.append(chollo_object)
-        print(titulo_chollo+' - '+comercio_chollo+' - '+precio_chollo+' - '+descripcion_chollo+' - '+cupon_chollo+' - '+link_chollo)
     
     return result
 

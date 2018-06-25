@@ -47,10 +47,20 @@ class DBC:
         self.db.purge_tables()
     
     def get_keywords(self):
-        return self.db.table('UserConfiguration').all()[0]['keywords']
+        result = []
+        if self.db.table('UserConfiguration').all()[0]['keywords']=='*':
+            result.append(self.db.table('UserConfiguration').all()[0]['keywords'])
+        else:
+            result = self.db.table('UserConfiguration').all()[0]['keywords'].split(',')
+        return result
 
     def get_merchants(self):
-        return self.db.table('UserConfiguration').all()[0]['merchants']
+        result = []
+        if self.db.table('UserConfiguration').all()[0]['merchants']=='*':
+            result.append(self.db.table('UserConfiguration').all()[0]['merchants'])
+        else:
+            result = self.db.table('UserConfiguration').all()[0]['merchants'].split(',')
+        return result
 
     def modify_keywords(self, keywords):
         user_configuration = self.db.table('UserConfiguration')
