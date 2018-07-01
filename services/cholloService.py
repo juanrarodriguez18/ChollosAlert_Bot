@@ -15,9 +15,13 @@
 #     You should have received a copy of the GNU General Public License
 #     along with ChollosAlert Bot.  If not, see <http:#www.gnu.org/licenses/>.
 
+import logging
+import schedule
 import repository.repository as repository
 from utils.chollometroScraping import extraer_datos_pagina_chollometro
 from utils.micholloScraping import extraer_datos_pagina_michollo
+
+old_chollos = []
 
 def get_user_chollos():
     repository.set_dbc(repository.DBC())
@@ -27,11 +31,27 @@ def get_user_chollos():
     chollos.extend(extraer_datos_pagina_chollometro() + extraer_datos_pagina_michollo())
     result = []
 
+    # Use "chcp 65001" command on windows console in order to show the string correctly
     for chollo in chollos:
         for keyword in keywords:
             if (keyword == '*' or keyword in chollo.titulo) and ('*' in merchants or chollo.comercio in merchants):
-                        print(chollo.titulo+' - '+chollo.comercio+' - '+chollo.precio+' - '+chollo.descripcion+' - '+chollo.cupon+' - '+chollo.link)
+                        # print(chollo.titulo+' - '+chollo.comercio+' - '+chollo.precio+' - '+chollo.descripcion+' - '+chollo.cupon+' - '+chollo.link)
                         result.append(chollo)
     
     return result
+
+def check_chollos():
+        logging.debug("Checking chollos")
+        result = []
+        chollos = get_user_chollos()
+
+        for chollo in chollos:
+            if chollo.link not in old_chollos:
+                result.append(chollo)
+                old_chollos.append(chollo.link)
+                print(chollo)
+        return result
+
+def schedule_chollos(time_seconds):
+    schedule.every(time_seconds).seconds.do(check_chollos)
     

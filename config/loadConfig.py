@@ -29,7 +29,7 @@ class Config:
         self.telegram_token = None
         self.telegram_admin_user_id = None
         self.telegram_admin_username = None
-        self.default_refresh_inbox = None
+        self.default_refresh_chollos = None
         self.log_path = None
         self.db_path = None
         self.log_level = None
@@ -45,7 +45,7 @@ class Config:
         self.__set_db_path(os.getenv('DB_PATH', os.path.join("my-config", "chollos-db.json")))
 
         # ========  Email
-        self.__set_default_refresh_inbox(os.getenv('DEFAULT_REFRESH_TIME', 3 * 60))  # 3 minutos
+        self.__set_default_refresh_chollos(os.getenv('DEFAULT_REFRESH_TIME', 3 * 60))  # 3 minutos
 
         # ========  Log
         self.__set_log_level(os.getenv('LOG_LEVEL', "INFO"))
@@ -63,19 +63,19 @@ class Config:
 
         self.__set_db_path(self.__lod(config, 'Database', 'PATH', self.db_path))
 
-        self.__set_default_refresh_inbox(self.__lod(config, 'Email', 'DEFAULT_REFRESH_TIME', self.default_refresh_inbox))
+        self.__set_default_refresh_chollos(self.__lod(config, 'Email', 'DEFAULT_REFRESH_TIME', self.default_refresh_chollos))
 
         self.__set_log_level(self.__lod(config, 'Log', 'LOG_LEVEL', self.log_level))
         self.__set_log_path(self.__lod(config, 'Log', 'LOG_PATH', self.log_path))
 
-    def load_config_variables(self, token, admin_user_id, admin_username, db_path, refresh_inbox, log_level, log_path):
+    def load_config_variables(self, token, admin_user_id, admin_username, db_path, refresh_chollos, log_level, log_path):
         self.__set_telegram_token(self.__lov(token, self.telegram_token))
         self.__set_telegram_admin_username(self.__lov(admin_user_id, self.telegram_admin_username))
         self.__set_telegram_admin_user_id(self.__lov(admin_username, self.telegram_admin_user_id))
 
         self.__set_db_path(self.__lov(db_path, self.db_path))
 
-        self.__set_default_refresh_inbox(self.__lov(refresh_inbox, self.default_refresh_inbox))
+        self.__set_default_refresh_chollos(self.__lov(refresh_chollos, self.default_refresh_chollos))
 
         self.__set_log_level(self.__lov(log_level, self.log_level))
         self.__set_log_path(self.__lov(log_path, self.log_path))
@@ -109,12 +109,12 @@ class Config:
             raise AssertionError
         self.telegram_admin_username = inp
 
-    def __set_default_refresh_inbox(self, inp):
+    def __set_default_refresh_chollos(self, inp):
         if isinstance(inp, str):
             inp = int(inp)
         if not isinstance(inp, int):
             raise AssertionError
-        self.default_refresh_inbox = inp
+        self.default_refresh_chollos = inp
 
     def __set_log_level(self, inp):
         level = logging. _nameToLevel.get(inp)

@@ -22,6 +22,7 @@ from commands import load_dispatcher
 from services import set_bot
 from config.loadConfig import Config, get_config, set_config
 from repository.repository import DBC, set_dbc
+from services.cholloService import schedule_chollos
 
 @click.command()
 @click.option('--config_path', default=None, help='Path to config file. It overwrite all env variables')
@@ -70,6 +71,7 @@ def init(config_path, token, admin_user_id, admin_username, db_path, refresh_cho
     # Start the Bot
     updater.start_polling(timeout=15, read_latency=6)
     logging.error("Bot started")
+    schedule_chollos(get_config().default_refresh_chollos)
 
     # Run the bot until the user presses Ctrl-C or the process receives SIGINT,
     # SIGTERM or SIGABRT
