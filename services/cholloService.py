@@ -20,6 +20,8 @@ import schedule
 import repository.repository as repository
 from utils.chollometroScraping import extraer_datos_pagina_chollometro
 from utils.micholloScraping import extraer_datos_pagina_michollo
+from utils.telegram import notify_new_chollo
+from services import get_bot
 
 old_chollos = []
 
@@ -40,18 +42,25 @@ def get_user_chollos():
     
     return result
 
-def check_chollos():
+def check_chollos(user_id):
         logging.debug("Checking chollos")
         result = []
-        chollos = get_user_chollos()
+        try:
+            chollos = get_user_chollos()
 
-        for chollo in chollos:
-            if chollo.link not in old_chollos:
-                result.append(chollo)
-                old_chollos.append(chollo.link)
-                print(chollo)
+            for chollo in chollos:
+                if chollo.link not in old_chollos:
+                    result.append(chollo)
+                    old_chollos.append(chollo.link)
+                    notify_new_chollo(get_bot(), user_id, chollo)
+                    # print(chollo.titulo)
+        except Exception as e:
+            logging.error("Failed checking chollos")
+            logging.error(e)
+            get_bot().send_message(chat_id=user_id, parse_mode="Markdown",
+                             text="Something go really bad. You couldn't be notify of news chollos")
         return result
 
-def schedule_chollos(time_seconds):
-    schedule.every(time_seconds).seconds.do(check_chollos)
+def schedule_chollos(time_seconds, user_id):
+    schedule.every(time_seconds).seconds.do(check_chollos, user_id)
     
