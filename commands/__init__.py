@@ -18,9 +18,34 @@ from telegram.ext import CommandHandler, CallbackQueryHandler, ConversationHandl
     RegexHandler, Filters
 
 from commands.generic import start, help, error
+from commands.users import modify_keywords, modify_user_keywords, modify_merchants, modify_user_merchants, \
+    cancel
 
 
 def load_dispatcher(dispatcher):
     dispatcher.add_handler(CommandHandler('start', start))
     dispatcher.add_handler(CommandHandler('help', help))
     
+    # MODIFY KEYWORDS
+    KEYWORDS = 1
+    conv_modify_keywords = ConversationHandler(
+        entry_points=[CallbackQueryHandler(modify_keywords, pattern="(\/modify_keywords)")],
+        states={
+            KEYWORDS: [MessageHandler(Filters.text, modify_user_keywords, pass_user_data=True)]
+        },
+        fallbacks=[CommandHandler('cancel', cancel)]
+    )
+    dispatcher.add_handler(conv_modify_keywords)
+    dispatcher.add_error_handler(error)
+
+    # MODIFY MERCHANTS
+    MERCHANTS = 2
+    conv_modify_merchants = ConversationHandler(
+        entry_points=[CallbackQueryHandler(modify_merchants, pattern="(\/modify_merchants)")],
+        states={
+            MERCHANTS: [MessageHandler(Filters.text, modify_user_merchants, pass_user_data=True)]
+        },
+        fallbacks=[CommandHandler('cancel', cancel)]
+    )
+    dispatcher.add_handler(conv_modify_merchants)
+    dispatcher.add_error_handler(error)
