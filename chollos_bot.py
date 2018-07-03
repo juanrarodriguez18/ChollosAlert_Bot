@@ -71,7 +71,8 @@ def init(config_path, token, admin_user_id, admin_username, db_path, refresh_cho
     # Start the Bot
     updater.start_polling(timeout=15, read_latency=6)
     logging.error("Bot started")
-    schedule_chollos(get_config().default_refresh_chollos, get_config().telegram_admin_user_id)
+
+    schedule_chollos(get_config().default_refresh_chollos)
 
     # Run the bot until the user presses Ctrl-C or the process receives SIGINT,
     # SIGTERM or SIGABRT

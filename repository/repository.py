@@ -15,7 +15,7 @@
 #     You should have received a copy of the GNU General Public License
 #     along with ChollosAlert Bot.  If not, see <http:#www.gnu.org/licenses/>.
 import os
-from tinydb import TinyDB, Query
+from tinydb import TinyDB, Query, where
 
 
 db = None
@@ -36,40 +36,48 @@ class DBC:
             self.db = TinyDB(os.path.join('my-config', 'chollos-db.json'))
         else:
             self.db = TinyDB(path)
-        user_configuration = self.db.table('UserConfiguration')
-        if len(self.db.table('UserConfiguration').all())==0:
-            user_configuration.insert({'keywords': '*', 'merchants': '*'})
+        self.db.table('UserConfiguration')
 
     def get_table(self, table_name):
         return self.db.table(table_name)
 
     def purge(self):
         self.db.purge_tables()
+
+    def insert_user_configuration(self, user_id):
+            result = False
+            if len(self.db.table('UserConfiguration').search(where('user_id') == user_id)) == 0:
+                self.db.table('UserConfiguration').insert({'user_id': user_id, 'keywords': '*', 'merchants': '*'})
+                result = True
+
+            return result
     
-    def get_keywords(self):
+    def get_keywords(self, user_id):
         result = []
-        if self.db.table('UserConfiguration').all()[0]['keywords']=='*':
-            result.append(self.db.table('UserConfiguration').all()[0]['keywords'])
+        keywords = self.db.table('UserConfiguration').search(where('user_id') == user_id)[0]['keywords']
+        if keywords=='*':
+            result.append(keywords)
         else:
-            result = self.db.table('UserConfiguration').all()[0]['keywords'].split(',')
+            result = keywords.split(',')
         return result
 
-    def get_merchants(self):
+    def get_merchants(self, user_id):
         result = []
-        if self.db.table('UserConfiguration').all()[0]['merchants']=='*':
-            result.append(self.db.table('UserConfiguration').all()[0]['merchants'])
+        merchants = self.db.table('UserConfiguration').search(where('user_id') == user_id)[0]['merchants']
+        if merchants=='*':
+            result.append(merchants)
         else:
-            result = self.db.table('UserConfiguration').all()[0]['merchants'].split(',')
+            result = merchants.split(',')
         return result
 
-    def modify_keywords(self, keywords):
+    def modify_keywords(self, keywords, user_id):
         user_configuration = self.db.table('UserConfiguration')
         query = Query()
         user_configuration.update({'keywords': keywords},
-                             query.merchants == user_configuration.all()[0]['merchants'])
+                             query.user_id == user_id)
 
-    def modify_merchants(self, merchants):
+    def modify_merchants(self, merchants, user_id):
         user_configuration = self.db.table('UserConfiguration')
         query = Query()
         user_configuration.update({'merchants': merchants},
-                             query.keywords == user_configuration.all()[0]['keywords'])
+                             query.user_id == user_id)

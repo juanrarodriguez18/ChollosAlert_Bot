@@ -23,12 +23,13 @@ from utils.micholloScraping import extraer_datos_pagina_michollo
 from utils.telegram import notify_new_chollo
 from services import get_bot
 
+
 old_chollos = []
 
-def get_user_chollos():
+def get_user_chollos(user_id):
     repository.set_dbc(repository.DBC())
-    keywords = repository.get_dbc().get_keywords()
-    merchants = repository.get_dbc().get_merchants()
+    keywords = repository.get_dbc().get_keywords(user_id)
+    merchants = repository.get_dbc().get_merchants(user_id)
     chollos = []
     chollos.extend(extraer_datos_pagina_chollometro() + extraer_datos_pagina_michollo())
     result = []
@@ -42,18 +43,20 @@ def get_user_chollos():
     
     return result
 
-def check_chollos(user_id):
+def check_chollos():
         logging.debug("Checking chollos")
         result = []
         try:
-            chollos = get_user_chollos()
+            for userConfiguration in repository.get_dbc().get_table('UserConfiguration').all():
+                user_id = userConfiguration['user_id']
+                chollos = get_user_chollos(user_id)
 
-            for chollo in chollos:
-                if chollo.link not in old_chollos:
-                    result.append(chollo)
-                    old_chollos.append(chollo.link)
-                    notify_new_chollo(get_bot(), user_id, chollo)
-                    # print(chollo.titulo)
+                for chollo in chollos:
+                    if chollo.link not in old_chollos:
+                        result.append(chollo)
+                        old_chollos.append(chollo.link)
+                        notify_new_chollo(get_bot(), user_id, chollo)
+                        print(chollo.titulo)
         except Exception as e:
             logging.error("Failed checking chollos")
             logging.error(e)
@@ -61,6 +64,7 @@ def check_chollos(user_id):
                              text="Something go really bad. You couldn't be notify of news chollos")
         return result
 
-def schedule_chollos(time_seconds, user_id):
-    schedule.every(time_seconds).seconds.do(check_chollos, user_id)
+def schedule_chollos(time_seconds):
+    print(time_seconds)
+    schedule.every(time_seconds).seconds.do(check_chollos)
     
