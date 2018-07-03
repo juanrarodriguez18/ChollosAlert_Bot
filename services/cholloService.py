@@ -60,8 +60,7 @@ def check_chollos():
         except Exception as e:
             logging.error("Failed checking chollos")
             logging.error(e)
-            get_bot().send_message(chat_id=user_id, parse_mode="Markdown",
-                             text="Something go really bad. You couldn't be notify of news chollos")
+            # get_bot().send_message(chat_id=user_id, parse_mode="Markdown", text="Something go really bad. You couldn't be notify of news chollos")
         return result
 
 def schedule_chollos(time_seconds):

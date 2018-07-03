@@ -16,17 +16,17 @@
 #     along with ChollosAlert Bot.  If not, see <http:#www.gnu.org/licenses/>.
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup
 import logging
+from repository.repository import DBC, get_dbc
 
 
 def start(bot, update):
-    keyboard = [[InlineKeyboardButton("Option 1", callback_data='/start/1'),
-                 InlineKeyboardButton("Option 2", callback_data='/notStart/2')]]
+    print(update.message.chat_id)
+    is_inserted = get_dbc().insert_user_configuration(update.message.chat_id)
 
-    reply_markup = InlineKeyboardMarkup(keyboard)
-
-    update.message.reply_text('Please choose:', reply_markup=reply_markup)
-    logging.debug(update.message.chat_id)
-
+    if is_inserted:
+        update.message.reply_text("The bot has been configured to you ;)!")
+    else:
+        update.message.reply_text("Your user already exists!")
 
 def help(bot, update):
     update.message.reply_text("help")
