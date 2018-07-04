@@ -81,3 +81,9 @@ class DBC:
         query = Query()
         user_configuration.update({'merchants': merchants},
                              query.user_id == user_id)
+
+    def get_keywords_str(self, user_id):
+        return self.db.table('UserConfiguration').search(where('user_id') == user_id)[0]['keywords']
+
+    def get_merchants_str(self, user_id):
+        return self.db.table('UserConfiguration').search(where('user_id') == user_id)[0]['merchants']

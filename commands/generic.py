@@ -20,13 +20,13 @@ from repository.repository import DBC, get_dbc
 
 
 def start(bot, update):
-    print(update.message.chat_id)
+    # print(update.message.chat_id)
     is_inserted = get_dbc().insert_user_configuration(update.message.chat_id)
 
     if is_inserted:
-        update.message.reply_text("The bot has been configured to you ;)!")
+        update.message.reply_text("¡Se ha configurado el bot para ti ;)!")
     else:
-        update.message.reply_text("Your user already exists!")
+        update.message.reply_text("¡Su usuario ya existe!")
 
 def help(bot, update):
     update.message.reply_text("help")

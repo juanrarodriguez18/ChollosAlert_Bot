@@ -18,20 +18,24 @@ from telegram.ext import CommandHandler, CallbackQueryHandler, ConversationHandl
     RegexHandler, Filters
 
 from commands.generic import start, help, error
-from commands.users import modify_keywords, modify_user_keywords, modify_merchants, modify_user_merchants, \
-    cancel
+from commands.users import list_keywords, list_merchants, modify_keywords, modify_user_keywords, \
+    modify_merchants, modify_user_merchants, cancel
 
 
 def load_dispatcher(dispatcher):
     dispatcher.add_handler(CommandHandler('start', start))
     dispatcher.add_handler(CommandHandler('help', help))
     
+    # LIST
+    dispatcher.add_handler(CommandHandler('listarPalabrasClave', list_keywords))
+    dispatcher.add_handler(CommandHandler('listarComercios', list_merchants))
+
     # MODIFY KEYWORDS
     KEYWORDS = 1
     conv_modify_keywords = ConversationHandler(
-        entry_points=[CallbackQueryHandler(modify_keywords, pattern="(\/modify_keywords)")],
+        entry_points=[CommandHandler('modificarPalabrasClave', modify_keywords)],
         states={
-            KEYWORDS: [MessageHandler(Filters.text, modify_user_keywords, pass_user_data=True)]
+            KEYWORDS: [MessageHandler(Filters.text, modify_user_keywords)]
         },
         fallbacks=[CommandHandler('cancel', cancel)]
     )
@@ -41,9 +45,9 @@ def load_dispatcher(dispatcher):
     # MODIFY MERCHANTS
     MERCHANTS = 2
     conv_modify_merchants = ConversationHandler(
-        entry_points=[CallbackQueryHandler(modify_merchants, pattern="(\/modify_merchants)")],
+        entry_points=[CommandHandler('modificarComercios', modify_merchants)],
         states={
-            MERCHANTS: [MessageHandler(Filters.text, modify_user_merchants, pass_user_data=True)]
+            MERCHANTS: [MessageHandler(Filters.text, modify_user_merchants)]
         },
         fallbacks=[CommandHandler('cancel', cancel)]
     )

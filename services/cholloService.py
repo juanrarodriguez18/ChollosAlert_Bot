@@ -56,7 +56,7 @@ def check_chollos():
                         result.append(chollo)
                         old_chollos.append(chollo.link)
                         notify_new_chollo(get_bot(), user_id, chollo)
-                        print(chollo.titulo)
+                        # print(chollo.titulo)
         except Exception as e:
             logging.error("Failed checking chollos")
             logging.error(e)
@@ -64,6 +64,6 @@ def check_chollos():
         return result
 
 def schedule_chollos(time_seconds):
-    print(time_seconds)
+    # print(time_seconds)
     schedule.every(time_seconds).seconds.do(check_chollos)
     
