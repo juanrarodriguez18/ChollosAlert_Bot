@@ -29,8 +29,18 @@ def start(bot, update):
         update.message.reply_text("¡Su usuario ya existe!")
 
 def help(bot, update):
-    update.message.reply_text("help")
-
+    update.message.reply_text("Éste Bot se ha desarrollad con la intención de no perderse los chollos que pueden resultar importantes sin tener que tener activas"+
+    "las notificaciones de todos los canales de Chollos. Para ello se han definido dos listas:"+
+    "\n\n\t - Lista de Palabras Clave: Permite al usuario elegir una lista de palabras claves para que se le notifiquen los chollos"+
+    "que contengan sólo dichas palabras. En caso de querer ser notificados de todos los chollos, definiremos ésta lista como \"*\" (es como"+
+    "viene definida por defecto)."+
+    "\n\n\t - Lista de Comercios: Permite al usuario elegir una lista de comercios para que se le notifiquen los chollos"+
+    "que contengan sólo dichos comercios. En caso de querer ser notificados de todos los chollos, definiremos ésta lista como \"*\" (es como"+
+    "viene definida por defecto)."+
+    "\n\n Si ambas listas están configuradas, el usuario sólo será notificado de aquellos chollos que cumplan las condiciones marcadas en"+
+    "ambas listas."+
+    "\n\n Para cualquier duda, mejora o fallo en el Bot, sentíos libres de poner una Issue en el repositorio:"+ 
+    "https://github.com/juanrarodriguez18/ChollosAlert_Bot")
 
 def error(bot, update, error):
     logging.warning('Update "%s" caused error "%s"' % (update, error))

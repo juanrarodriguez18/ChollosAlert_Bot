@@ -73,13 +73,13 @@ class DBC:
     def modify_keywords(self, keywords, user_id):
         user_configuration = self.db.table('UserConfiguration')
         query = Query()
-        user_configuration.update({'keywords': keywords},
+        user_configuration.update({'keywords': keywords.replace('"','')},
                              query.user_id == user_id)
 
     def modify_merchants(self, merchants, user_id):
         user_configuration = self.db.table('UserConfiguration')
         query = Query()
-        user_configuration.update({'merchants': merchants},
+        user_configuration.update({'merchants': merchants.replace('"','')},
                              query.user_id == user_id)
 
     def get_keywords_str(self, user_id):

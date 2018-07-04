@@ -27,13 +27,13 @@ def load_dispatcher(dispatcher):
     dispatcher.add_handler(CommandHandler('help', help))
     
     # LIST
-    dispatcher.add_handler(CommandHandler('listarPalabrasClave', list_keywords))
-    dispatcher.add_handler(CommandHandler('listarComercios', list_merchants))
+    dispatcher.add_handler(CommandHandler('listarpalabrasclave', list_keywords))
+    dispatcher.add_handler(CommandHandler('listarcomercios', list_merchants))
 
     # MODIFY KEYWORDS
     KEYWORDS = 1
     conv_modify_keywords = ConversationHandler(
-        entry_points=[CommandHandler('modificarPalabrasClave', modify_keywords)],
+        entry_points=[CommandHandler('modificarpalabrasclave', modify_keywords)],
         states={
             KEYWORDS: [MessageHandler(Filters.text, modify_user_keywords)]
         },
@@ -45,7 +45,7 @@ def load_dispatcher(dispatcher):
     # MODIFY MERCHANTS
     MERCHANTS = 2
     conv_modify_merchants = ConversationHandler(
-        entry_points=[CommandHandler('modificarComercios', modify_merchants)],
+        entry_points=[CommandHandler('modificarcomercios', modify_merchants)],
         states={
             MERCHANTS: [MessageHandler(Filters.text, modify_user_merchants)]
         },
