@@ -27,8 +27,6 @@ global_config = None
 class Config:
     def __init_empty_vars(self):
         self.telegram_token = None
-        self.telegram_admin_user_id = None
-        self.telegram_admin_username = None
         self.default_refresh_chollos = None
         self.log_path = None
         self.db_path = None
@@ -38,8 +36,6 @@ class Config:
         self.__init_empty_vars()
         # ========  Telegram
         self.__set_telegram_token(os.getenv('TELEGRAM_TOKEN', ""))
-        self.__set_telegram_admin_user_id(os.getenv('TELEGRAM_ADMIN_USER_ID', ""))
-        self.__set_telegram_admin_username(os.getenv('TELEGRAM_ADMIN_USERNAME', ""))
 
         # ========  Database
         self.__set_db_path(os.getenv('DB_PATH', os.path.join("my-config", "chollos-db.json")))
@@ -58,8 +54,6 @@ class Config:
         config.read(path)
 
         self.__set_telegram_token(self.__lod(config, 'Telegram', 'TOKEN', self.telegram_token))
-        self.__set_telegram_admin_username(self.__lod(config, 'Telegram', 'ADMIN_USERNAME', self.telegram_admin_username))
-        self.__set_telegram_admin_user_id(self.__lod(config, 'Telegram', 'ADMIN_USER_ID', self.telegram_admin_user_id))
 
         self.__set_db_path(self.__lod(config, 'Database', 'PATH', self.db_path))
 
@@ -68,10 +62,8 @@ class Config:
         self.__set_log_level(self.__lod(config, 'Log', 'LOG_LEVEL', self.log_level))
         self.__set_log_path(self.__lod(config, 'Log', 'LOG_PATH', self.log_path))
 
-    def load_config_variables(self, token, admin_user_id, admin_username, db_path, refresh_chollos, log_level, log_path):
+    def load_config_variables(self, token, db_path, refresh_chollos, log_level, log_path):
         self.__set_telegram_token(self.__lov(token, self.telegram_token))
-        self.__set_telegram_admin_username(self.__lov(admin_user_id, self.telegram_admin_username))
-        self.__set_telegram_admin_user_id(self.__lov(admin_username, self.telegram_admin_user_id))
 
         self.__set_db_path(self.__lov(db_path, self.db_path))
 
@@ -98,16 +90,6 @@ class Config:
         if not isinstance(inp, str):
             raise AssertionError
         self.telegram_token = inp
-
-    def __set_telegram_admin_user_id(self, inp):
-        if not isinstance(inp, str):
-            raise AssertionError
-        self.telegram_admin_user_id = inp
-
-    def __set_telegram_admin_username(self, inp):
-        if not isinstance(inp, str):
-            raise AssertionError
-        self.telegram_admin_username = inp
 
     def __set_default_refresh_chollos(self, inp):
         if isinstance(inp, str):

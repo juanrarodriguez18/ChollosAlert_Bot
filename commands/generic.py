@@ -29,7 +29,7 @@ def start(bot, update):
         update.message.reply_text("¡Su usuario ya existe!")
 
 def help(bot, update):
-    update.message.reply_text("Éste Bot se ha desarrollad con la intención de no perderse los chollos que pueden resultar importantes sin tener que tener activas"+
+    update.message.reply_text("Éste Bot se ha desarrollado con la intención de no perderse los chollos que pueden resultar importantes sin tener que tener activas"+
     "las notificaciones de todos los canales de Chollos. Para ello se han definido dos listas:"+
     "\n\n\t - Lista de Palabras Clave: Permite al usuario elegir una lista de palabras claves para que se le notifiquen los chollos"+
     "que contengan sólo dichas palabras. En caso de querer ser notificados de todos los chollos, definiremos ésta lista como \"*\" (es como"+
