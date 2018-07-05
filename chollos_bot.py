@@ -68,14 +68,14 @@ def init(config_path, token, db_path, refresh_chollos, log_level, log_path):
 
     # Start the Bot
     updater.start_polling(timeout=15, read_latency=6)
-    logging.error("Bot started")
+    logging.info("Bot started")
 
     schedule_chollos(get_config().default_refresh_chollos)
 
     # Run the bot until the user presses Ctrl-C or the process receives SIGINT,
     # SIGTERM or SIGABRT
     updater.idle()
-    logging.error("Bye !")
+    logging.info("Bye !")
 
 
 if __name__ == '__main__':
