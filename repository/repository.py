@@ -64,7 +64,7 @@ class DBC:
     def get_merchants(self, user_id):
         result = []
         merchants = self.db.table('UserConfiguration').search(where('user_id') == user_id)[0]['merchants']
-        if merchants=='*' merchants.contains(',')==False:
+        if merchants=='*' or merchants.contains(',')==False:
             result.append(merchants)
         else:
             result = merchants.split(',')
