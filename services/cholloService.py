@@ -57,7 +57,7 @@ def check_chollos():
                         result.append(chollo)
                         old_chollos[user_id].append(chollo.link)
                         notify_new_chollo(get_bot(), user_id, chollo)
-                        # print(chollo.titulo)
+                        # print(chollo.titulo+' - '+chollo.comercio)
         except Exception as e:
             logging.error("Failed checking chollos")
             logging.error(e)
