@@ -55,7 +55,7 @@ class DBC:
     def get_keywords(self, user_id):
         result = []
         keywords = self.db.table('UserConfiguration').search(where('user_id') == user_id)[0]['keywords']
-        if keywords=='*' or keywords.contains(',')==False:
+        if keywords=='*' or ',' not in keywords:
             result.append(keywords)
         else:
             result = keywords.split(',')
@@ -64,7 +64,7 @@ class DBC:
     def get_merchants(self, user_id):
         result = []
         merchants = self.db.table('UserConfiguration').search(where('user_id') == user_id)[0]['merchants']
-        if merchants=='*' or merchants.contains(',')==False:
+        if merchants=='*' or ',' not in merchants.contains:
             result.append(merchants)
         else:
             result = merchants.split(',')

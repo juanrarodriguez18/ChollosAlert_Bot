@@ -24,7 +24,7 @@ from utils.telegram import notify_new_chollo
 from services import get_bot
 
 
-old_chollos = []
+old_chollos = {}
 
 def get_user_chollos(user_id):
     repository.set_dbc(repository.DBC())
@@ -50,11 +50,12 @@ def check_chollos():
             for userConfiguration in repository.get_dbc().get_table('UserConfiguration').all():
                 user_id = userConfiguration['user_id']
                 chollos = get_user_chollos(user_id)
-
+                if user_id not in old_chollos:
+                    old_chollos[user_id] = []
                 for chollo in chollos:
-                    if chollo.link not in old_chollos:
+                    if chollo.link not in old_chollos[user_id]:
                         result.append(chollo)
-                        old_chollos.append(chollo.link)
+                        old_chollos[user_id].append(chollo.link)
                         notify_new_chollo(get_bot(), user_id, chollo)
                         # print(chollo.titulo)
         except Exception as e:
