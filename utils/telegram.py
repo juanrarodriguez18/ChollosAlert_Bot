@@ -27,11 +27,11 @@ def notify_new_chollo(bot, user_id, chollo):
         comercio = comercio.replace('-','')
 
     if '€' in chollo.precio:
-        precio = chollo.precio.replace('.',',')
+        precio = '💶 '+chollo.precio.replace('.',',')
 
     if chollo.cupon:
-        cupon = 'Cupón: '+chollo.cupon+'\n'
+        cupon = '🔖 Cupón: '+chollo.cupon+'\n'
 
-    chollo_string = '*'+chollo.titulo+'* '+comercio+'\n'+precio+'\n'+cupon+chollo.descripcion+'\n Link: '+chollo.link
+    chollo_string = '*'+chollo.titulo+'* '+comercio+'\n'+precio+'\n'+cupon+'\n'+chollo.descripcion+'\n\n 🔗'+chollo.link+'\n\n'
     msg_send = bot.send_message(chat_id=user_id, parse_mode="Markdown", text=chollo_string)
     return msg_send is not None
