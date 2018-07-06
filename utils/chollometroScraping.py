@@ -30,16 +30,17 @@ def extraer_datos_pagina_chollometro():
     soup = BeautifulSoup(page.text, "html.parser")
     chollos = soup.find_all('article')
 
-    titulo_chollo = ''
-    comercio_chollo = ''
-    precio_chollo = ''
-    descripcion_chollo = ''
-    cupon_chollo = ''
-    link_chollo = ''
     result = []
 
     # Use "chcp 65001" command on windows console in order to show the string correctly
     for chollo in chollos:
+        titulo_chollo = ''
+        comercio_chollo = ''
+        precio_chollo = ''
+        descripcion_chollo = ''
+        cupon_chollo = ''
+        link_chollo = ''
+
         if chollo.find('strong', {"class": "thread-title"}) != None:
             titulo_chollo = chollo.find('strong', {"class": "thread-title"}).text.encode('utf-8').decode('utf-8').strip()
         if chollo.find('span', {"class": "cept-merchant-name"}) != None:
@@ -52,6 +53,7 @@ def extraer_datos_pagina_chollometro():
             cupon_chollo = chollo.find('div', {"class": "voucher"}).find('input').get('value').encode('utf-8').decode('utf-8').strip()
         if chollo.find('a', {"class": "btn--mode-primary"}) != None:
             link_chollo = chollo.find('a', {"class": "btn--mode-primary"}).get('href').encode('utf-8').decode('utf-8').strip()
+
         chollo_object = Chollo(titulo_chollo, comercio_chollo, precio_chollo, descripcion_chollo, cupon_chollo, link_chollo)
         result.append(chollo_object)
     

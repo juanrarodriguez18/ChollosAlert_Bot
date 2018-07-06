@@ -30,16 +30,17 @@ def extraer_datos_pagina_michollo():
     soup = BeautifulSoup(page.text, "html.parser")
     chollos = soup.find_all('div', {"class": "news-community"})
 
-    titulo_chollo = ''
-    comercio_chollo = ''
-    precio_chollo = ''
-    descripcion_chollo = ''
-    cupon_chollo = ''
-    link_chollo = ''
     result = []
 
     # Use "chcp 65001" command on windows console in order to show the string correctly
     for chollo in chollos:
+        titulo_chollo = ''
+        comercio_chollo = ''
+        precio_chollo = ''
+        descripcion_chollo = ''
+        cupon_chollo = ''
+        link_chollo = ''
+
         if chollo.find('h3') != None:
             titulo_chollo = chollo.find('h3').text.encode('utf-8').decode('utf-8').strip()
         if chollo.find('span', {"class": "single_price_count"}) != None:
@@ -50,6 +51,7 @@ def extraer_datos_pagina_michollo():
             cupon_chollo = chollo.find('span', {"class": "coupon_text"}).text.encode('utf-8').decode('utf-8').strip()
         if chollo.find('a', {"class": "btn_offer_block"}) != None:
             link_chollo = chollo.find('a', {"class": "btn_offer_block"}).get('href').encode('utf-8').decode('utf-8').strip()
+
         chollo_object = Chollo(titulo_chollo, comercio_chollo, precio_chollo, descripcion_chollo, cupon_chollo, link_chollo)
         result.append(chollo_object)
     
