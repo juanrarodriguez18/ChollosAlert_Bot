@@ -1,4 +1,5 @@
 # ChollosAlert
+<img src="./img/LogoChollosAlert.png" width="160px">
 
 Bot de Telegram que te alertará con tus chollos favoritos. ¡No volverás a perderte ninguno nunca más!
 
