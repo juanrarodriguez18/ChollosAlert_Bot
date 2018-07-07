@@ -40,7 +40,7 @@ class Config:
         # ========  Database
         self.__set_db_path(os.getenv('DB_PATH', os.path.join("my-config", "chollos-db.json")))
 
-        # ========  Email
+        # ========  Chollos
         self.__set_default_refresh_chollos(os.getenv('DEFAULT_REFRESH_TIME', 3 * 60))  # 3 minutos
 
         # ========  Log
@@ -57,7 +57,7 @@ class Config:
 
         self.__set_db_path(self.__lod(config, 'Database', 'PATH', self.db_path))
 
-        self.__set_default_refresh_chollos(self.__lod(config, 'Email', 'DEFAULT_REFRESH_TIME', self.default_refresh_chollos))
+        self.__set_default_refresh_chollos(self.__lod(config, 'Chollos', 'DEFAULT_REFRESH_TIME', self.default_refresh_chollos))
 
         self.__set_log_level(self.__lod(config, 'Log', 'LOG_LEVEL', self.log_level))
         self.__set_log_path(self.__lod(config, 'Log', 'LOG_PATH', self.log_path))
