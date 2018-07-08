@@ -26,7 +26,7 @@ Podemos lanzarlos de dos formas distintas:
 
 Para lanzarlo desde Python usaremos los siguientes comandos:
 
-```bash
+```bat
 pip install -r requirements.txt
 python chollos_bot.py --config_path my-config/my_config.ini
 ```
@@ -35,7 +35,12 @@ La ruta `my-config/my_config.ini` corresponderá con la ruta que hayamos configu
 
 ## Docker
 
-> En construcción
+Para lanzarlo desde Docker usaremos los siguientes comandos:
+
+```bat
+docker build --rm -f Dockerfile -t chollosalert:latest .
+docker run -d --name ChollosAlert_bot --restart always --env-file .env chollosalert:latest
+```
 
 ## Comandos del Bot
 
