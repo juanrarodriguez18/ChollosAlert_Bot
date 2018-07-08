@@ -19,7 +19,7 @@ Existen dos archivos de ejemplo donde almacenar dichos comandos, el primero es `
 
 Podemos lanzarlos de dos formas distintas:
 
-- [Python](./README.md#python)
+- [Python](./README.md#python) (v3)
 - [Docker](./README.md#docker)
 
 ## Python
