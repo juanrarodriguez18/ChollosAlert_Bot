@@ -37,7 +37,7 @@ def modify_keywords(bot, update):
     keywords = get_dbc().get_keywords_str(update.message.chat_id)
 
     update.message.reply_text("""Introduzca una lista de Palabras Clave separadas por \",\" o escriba \"*\" si no desea configurar Palabras Clave.
-    \nSu lista actual de Palabras clave es: \""""+keywords+"\"")
+    \nSu lista actual de Palabras clave es: """+keywords)
     return KEYWORDS
 
 def modify_user_keywords(bot, update):
@@ -52,7 +52,7 @@ def modify_merchants(bot, update):
     merchants = get_dbc().get_merchants_str(update.message.chat_id)
 
     update.message.reply_text("""Introduzca una lista de Comercios separadas por \",\" o escriba \"*\" si no desea configurar Comercios.
-    \nSu lista actual de Comercios es: \""""+merchants+"\"")
+    \nSu lista actual de Comercios es: """+merchants)
     return MERCHANTS
 
 def modify_user_merchants(bot, update):
