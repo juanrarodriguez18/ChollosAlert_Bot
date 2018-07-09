@@ -17,6 +17,7 @@
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup
 import logging
 from repository.repository import DBC, get_dbc
+from config.loadConfig import Config, get_config
 
 
 def start(bot, update):
@@ -38,7 +39,7 @@ def help(bot, update):
     "que contengan sólo dichos comercios. En caso de querer ser notificados de todos los chollos, definiremos ésta lista como \"*\" (es como"+
     "viene definida por defecto)."+
     "\n\n Si ambas listas están configuradas, el usuario sólo será notificado de aquellos chollos que cumplan las condiciones marcadas en"+
-    "ambas listas."+
+    "ambas listas. Los chollos se revisarán automáticamente cada "+str(get_config().default_refresh_chollos)+" segundos."+
     "\n\n Para cualquier duda, mejora o fallo en el Bot, sentíos libres de poner una Issue en el repositorio:"+ 
     "https://github.com/juanrarodriguez18/ChollosAlert_Bot")
 
