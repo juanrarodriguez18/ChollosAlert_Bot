@@ -16,7 +16,9 @@
 #     along with ChollosAlert Bot.  If not, see <http:#www.gnu.org/licenses/>.
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup
 import logging
+import time
 from repository.repository import DBC, get_dbc
+from services.cholloService import check_chollos_first_time
 from config.loadConfig import Config, get_config
 
 
@@ -26,6 +28,10 @@ def start(bot, update):
 
     if is_inserted:
         update.message.reply_text("¡Se ha configurado el bot para ti ;)!")
+        # Check if refresh time is larger than 3 seconds for send the chollos for the first time
+        if(get_config().default_refresh_chollos > 3):
+            time.sleep(3)
+            check_chollos_first_time(update.message.chat_id)
     else:
         update.message.reply_text("¡Su usuario ya existe!")
 

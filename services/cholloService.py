@@ -64,6 +64,26 @@ def check_chollos():
             # get_bot().send_message(chat_id=user_id, parse_mode="Markdown", text="Something go really bad. You couldn't be notify of news chollos")
         return result
 
+def check_chollos_first_time(user_id):
+        logging.debug("Checking chollos")
+        result = []
+        try:
+            user_id = user_id
+            chollos = get_user_chollos(user_id)
+            if user_id not in old_chollos:
+                old_chollos[user_id] = []
+            for chollo in chollos:
+                if chollo.link not in old_chollos[user_id]:
+                    result.append(chollo)
+                    old_chollos[user_id].append(chollo.link)
+                    notify_new_chollo(get_bot(), user_id, chollo)
+                    # print(chollo.titulo+' - '+chollo.comercio)
+        except Exception as e:
+            logging.error("Failed checking chollos")
+            logging.error(e)
+            # get_bot().send_message(chat_id=user_id, parse_mode="Markdown", text="Something go really bad. You couldn't be notify of news chollos")
+        return result
+
 def schedule_chollos(time_seconds):
     # print(time_seconds)
     schedule.every(time_seconds).seconds.do(check_chollos)
