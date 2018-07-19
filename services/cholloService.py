@@ -37,7 +37,8 @@ def get_user_chollos(user_id):
     # Use "chcp 65001" command on windows console in order to show the string correctly
     for chollo in chollos:
         for keyword in keywords:
-            if (keyword == '*' or keyword in chollo.titulo) and ('*' in merchants or chollo.comercio in merchants):
+            if ((keyword.strip() == '*' or keyword.strip().lower() in chollo.titulo.lower()) and 
+                ('*'.strip() in merchants or chollo.comercio.strip().lower() in merchants.lower())):
                         # print(chollo.titulo+' - '+chollo.comercio+' - '+chollo.precio+' - '+chollo.descripcion+' - '+chollo.cupon+' - '+chollo.link)
                         result.append(chollo)
     
