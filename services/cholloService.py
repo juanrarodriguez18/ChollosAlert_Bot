@@ -38,7 +38,7 @@ def get_user_chollos(user_id):
     for chollo in chollos:
         for keyword in keywords:
             if ((keyword.strip() == '*' or keyword.strip().lower() in chollo.titulo.lower()) and 
-                ('*'.strip() in merchants or chollo.comercio.strip().lower() in merchants.lower())):
+                ('*'.strip() in merchants or chollo.comercio.strip() in merchants)):
                         # print(chollo.titulo+' - '+chollo.comercio+' - '+chollo.precio+' - '+chollo.descripcion+' - '+chollo.cupon+' - '+chollo.link)
                         result.append(chollo)
     
