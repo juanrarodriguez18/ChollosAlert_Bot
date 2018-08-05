@@ -80,10 +80,10 @@ def modify_price(bot, update):
     text = ''
 
     if price=='*':
-        text = """Introduzca un precio máximo, en caso de tener decimales, ha de incluirse con \",\" o escriba \"*\" si no desea configurar Precio.
+        text = """Introduzca un precio máximo, en caso de tener decimales, ha de incluirse con \",\" y no se ha de incluir el símbolo \"€\" o escriba \"*\" si no desea configurar Precio.
     \nSu Precio máximo actual es: \n"""+price
     else:
-        text = """Introduzca un precio máximo, en caso de tener decimales, ha de incluirse con \",\" o escriba \"*\" si no desea configurar Precio.
+        text = """Introduzca un precio máximo, en caso de tener decimales, ha de incluirse con \",\" y no se ha de incluir el símbolo \"€\" o escriba \"*\" si no desea configurar Precio.
     \nSu Precio máximo actual es: \n"""+price+""" €"""
 
     update.message.reply_text(text)

@@ -46,8 +46,10 @@ docker run -d --name ChollosAlert_bot --restart always --env-file .env chollosal
 
 - **start** - Activa el Bot para comenzar a recibir Chollos
 - **listarpalabrasclave** - Muestra la lista de Palabras Clave configuradas
-- **listarcomercios** - Muestra la lista de Comercions configurados
+- **listarcomercios** - Muestra la lista de Comercios configurados
+- **mostrarprecio** - Muestra el Precio máximo configurado
 - **modificarpalabrasclave** - Modifica la lista de Palabras Clave
 - **modificarcomercios** - Modifica la lista de Comercios
+- **modificarprecio** - Modifica el Precio máximo
 - **cancel** - Cancela la conversación actual con el Bot
 - **help** - Muestra la ayuda del Bot

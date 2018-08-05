@@ -22,6 +22,7 @@ from utils.chollometroScraping import extraer_datos_pagina_chollometro
 from utils.micholloScraping import extraer_datos_pagina_michollo
 from utils.telegram import notify_new_chollo
 from services import get_bot
+import re
 
 
 old_chollos = {}
@@ -30,15 +31,21 @@ def get_user_chollos(user_id):
     repository.set_dbc(repository.DBC())
     keywords = repository.get_dbc().get_keywords(user_id)
     merchants = repository.get_dbc().get_merchants(user_id)
+    price = repository.get_dbc().get_price(user_id)
     chollos = []
     chollos.extend(extraer_datos_pagina_chollometro() + extraer_datos_pagina_michollo())
     result = []
 
     # Use "chcp 65001" command on windows console in order to show the string correctly
     for chollo in chollos:
+        try:
+            precio = float(chollo.precio.replace(',','.').replace('€',''))
+        except ValueError:
+            precio = 0
         for keyword in keywords:
             if ((keyword.strip() == '*' or keyword.strip().lower() in chollo.titulo.lower()) and 
-                ('*'.strip() in merchants or chollo.comercio.strip() in merchants)):
+                ('*' in merchants or chollo.comercio.strip() in merchants or not chollo.comercio) and
+                ('*' == price or  precio <= float(price.replace(',','.')))):
                         # print(chollo.titulo+' - '+chollo.comercio+' - '+chollo.precio+' - '+chollo.descripcion+' - '+chollo.cupon+' - '+chollo.link)
                         result.append(chollo)
     
