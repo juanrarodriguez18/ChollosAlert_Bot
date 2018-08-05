@@ -17,11 +17,13 @@
 
 from telegram.ext import ConversationHandler
 from repository.repository import DBC, get_dbc
+import re
 
 import logging
 
 KEYWORDS = 1
 MERCHANTS = 2
+PRICE = 3
 
 def list_keywords(bot, update):
     keywords = get_dbc().get_keywords_str(update.message.chat_id)
@@ -32,6 +34,16 @@ def list_merchants(bot, update):
     merchants = get_dbc().get_merchants_str(update.message.chat_id)
 
     update.message.reply_text("Su lista de Comercios es:\n\n"+merchants)
+
+def show_price(bot, update):
+    price = get_dbc().get_price(update.message.chat_id)
+    text = ''
+    if price=='*':
+        text = "Su precio máximo es:\n\n"+price
+    else:
+        text = "Su precio máximo es:\n\n"+price+" €"
+
+    update.message.reply_text(text)
 
 def modify_keywords(bot, update):
     keywords = get_dbc().get_keywords_str(update.message.chat_id)
@@ -60,6 +72,35 @@ def modify_user_merchants(bot, update):
     get_dbc().modify_merchants(merchants, update.message.chat_id)
 
     update.message.reply_text("Se ha actualizado su lista de Comercios.")
+
+    return ConversationHandler.END
+
+def modify_price(bot, update):
+    price = get_dbc().get_price(update.message.chat_id)
+    text = ''
+
+    if price=='*':
+        text = """Introduzca un precio máximo, en caso de tener decimales, ha de incluirse con \",\" o escriba \"*\" si no desea configurar Precio.
+    \nSu Precio máximo actual es: \n"""+price
+    else:
+        text = """Introduzca un precio máximo, en caso de tener decimales, ha de incluirse con \",\" o escriba \"*\" si no desea configurar Precio.
+    \nSu Precio máximo actual es: \n"""+price+""" €"""
+
+    update.message.reply_text(text)
+    return PRICE
+
+def modify_user_price(bot, update):
+    price = update.message.text
+    pattern = re.compile("^(\d*,)?\d+$")
+    text = ''
+
+    if pattern.match(price):
+        get_dbc().modify_price(price, update.message.chat_id)
+        text = "Se ha actualizado su Precio máximo."
+    else:
+        text = "No se ha introducido un precio válido."
+
+    update.message.reply_text(text)
 
     return ConversationHandler.END
 

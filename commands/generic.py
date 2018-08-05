@@ -44,8 +44,12 @@ def help(bot, update):
     "\n\n\t - Lista de Comercios: Permite al usuario elegir una lista de comercios para que se le notifiquen los chollos"+
     "que contengan sólo dichos comercios. En caso de querer ser notificados de todos los chollos, definiremos ésta lista como \"*\" (es como"+
     "viene definida por defecto)."+
+    "\n\n\t - Precio: Permite al usuario poner un precio máximo para los chollos de los que quiere ser notificados,"+
+    "sólo se le notificarán de los chollos que tengan un precio igual o inferior al indicado. En caso de querer ser notificados de todos los chollos,"+
+    " definiremos éste precio como \"*\" (es como viene definida por defecto)."+
     "\n\n Si ambas listas están configuradas, el usuario sólo será notificado de aquellos chollos que cumplan las condiciones marcadas en"+
-    "ambas listas. Los chollos se revisarán automáticamente cada "+str(get_config().default_refresh_chollos)+" segundos."+
+    "ambas listas y además cumplan la condición de precio, de estar configurada esta última condición. Los chollos se revisarán automáticamente cada "+
+    str(get_config().default_refresh_chollos)+" segundos."+
     "\n\n Para cualquier duda, mejora o fallo en el Bot, sentíos libres de poner una Issue en el repositorio:"+ 
     "https://github.com/juanrarodriguez18/ChollosAlert_Bot")
 
