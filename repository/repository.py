@@ -73,6 +73,14 @@ class DBC:
     def get_price(self, user_id):
         result = []
         
+        try:
+            self.db.table('UserConfiguration').search(where('user_id') == user_id)[0]['price']
+        except Exception:
+            user_configuration = self.db.table('UserConfiguration')
+            query = Query()
+            user_configuration.update({'price': '*'},
+                             query.user_id == user_id)
+
         result = self.db.table('UserConfiguration').search(where('user_id') == user_id)[0]['price']
         
         return result
