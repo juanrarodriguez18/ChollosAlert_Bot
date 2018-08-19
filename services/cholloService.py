@@ -23,9 +23,6 @@ from utils.micholloScraping import extraer_datos_pagina_michollo
 from utils.telegram import notify_new_chollo
 from services import get_bot
 
-
-old_chollos = {}
-
 def get_user_chollos(user_id):
     repository.set_dbc(repository.DBC())
     keywords = repository.get_dbc().get_keywords(user_id)
@@ -51,12 +48,11 @@ def check_chollos():
             for userConfiguration in repository.get_dbc().get_table('UserConfiguration').all():
                 user_id = userConfiguration['user_id']
                 chollos = get_user_chollos(user_id)
-                if user_id not in old_chollos:
-                    old_chollos[user_id] = []
+                repository.get_dbc().insert_user_sent_chollos(user_id)
                 for chollo in chollos:
-                    if chollo.link not in old_chollos[user_id]:
+                    if chollo.link not in repository.get_dbc().get_user_sent_chollos(user_id):
                         result.append(chollo)
-                        old_chollos[user_id].append(chollo.link)
+                        repository.get_dbc().add_user_sent_chollo(chollo.link, user_id)
                         notify_new_chollo(get_bot(), user_id, chollo)
                         # print(chollo.titulo+' - '+chollo.comercio)
         except Exception as e:
@@ -71,12 +67,11 @@ def check_chollos_first_time(user_id):
         try:
             user_id = user_id
             chollos = get_user_chollos(user_id)
-            if user_id not in old_chollos:
-                old_chollos[user_id] = []
+            repository.get_dbc().insert_user_sent_chollos(user_id)
             for chollo in chollos:
-                if chollo.link not in old_chollos[user_id]:
+                if chollo.link not in repository.get_dbc().get_user_sent_chollos(user_id):
                     result.append(chollo)
-                    old_chollos[user_id].append(chollo.link)
+                    repository.get_dbc().add_user_sent_chollo(chollo.link, user_id)
                     notify_new_chollo(get_bot(), user_id, chollo)
                     # print(chollo.titulo+' - '+chollo.comercio)
         except Exception as e:

@@ -16,6 +16,7 @@
 #     along with ChollosAlert Bot.  If not, see <http:#www.gnu.org/licenses/>.
 import os
 from tinydb import TinyDB, Query, where
+from tinydb.operations import add
 
 
 db = None
@@ -37,6 +38,7 @@ class DBC:
         else:
             self.db = TinyDB(path)
         self.db.table('UserConfiguration')
+        self.db.table('UserSentChollos')
 
     def get_table(self, table_name):
         return self.db.table(table_name)
@@ -87,3 +89,20 @@ class DBC:
 
     def get_merchants_str(self, user_id):
         return self.db.table('UserConfiguration').search(where('user_id') == user_id)[0]['merchants']
+
+    def insert_user_sent_chollos(self, user_id):
+            result = False
+            if len(self.db.table('UserSentChollos').search(where('user_id') == user_id)) == 0:
+                self.db.table('UserSentChollos').insert({'user_id': user_id, 'chollos': []})
+                result = True
+
+            return result
+
+    def get_user_sent_chollos(self, user_id):
+        return self.db.table('UserSentChollos').search(where('user_id') == user_id)[0]['chollos']
+
+    def add_user_sent_chollo(self, chollo, user_id):
+        user_configuration = self.db.table('UserSentChollos')
+        query = Query()
+        user_configuration.update(add('chollos',[chollo]),
+                             query.user_id == user_id)
