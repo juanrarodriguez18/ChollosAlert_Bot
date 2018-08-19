@@ -18,8 +18,8 @@ from telegram.ext import CommandHandler, CallbackQueryHandler, ConversationHandl
     RegexHandler, Filters
 
 from commands.generic import start, help, error
-from commands.users import list_keywords, list_merchants, modify_keywords, modify_user_keywords, \
-    modify_merchants, modify_user_merchants, cancel
+from commands.users import list_keywords, list_merchants, show_price, modify_keywords, modify_user_keywords, \
+    modify_merchants, modify_user_merchants, modify_price, modify_user_price, cancel
 
 
 def load_dispatcher(dispatcher):
@@ -29,6 +29,7 @@ def load_dispatcher(dispatcher):
     # LIST
     dispatcher.add_handler(CommandHandler('listarpalabrasclave', list_keywords))
     dispatcher.add_handler(CommandHandler('listarcomercios', list_merchants))
+    dispatcher.add_handler(CommandHandler('mostrarprecio', show_price))
 
     # MODIFY KEYWORDS
     KEYWORDS = 1
@@ -52,4 +53,16 @@ def load_dispatcher(dispatcher):
         fallbacks=[CommandHandler('cancel', cancel)]
     )
     dispatcher.add_handler(conv_modify_merchants)
+    dispatcher.add_error_handler(error)
+
+    # MODIFY PRICE
+    PRICE = 3
+    conv_modify_price = ConversationHandler(
+        entry_points=[CommandHandler('modificarprecio', modify_price)],
+        states={
+            PRICE: [MessageHandler(Filters.text, modify_user_price)]
+        },
+        fallbacks=[CommandHandler('cancel', cancel)]
+    )
+    dispatcher.add_handler(conv_modify_price)
     dispatcher.add_error_handler(error)

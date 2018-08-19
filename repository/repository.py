@@ -49,7 +49,7 @@ class DBC:
     def insert_user_configuration(self, user_id):
             result = False
             if len(self.db.table('UserConfiguration').search(where('user_id') == user_id)) == 0:
-                self.db.table('UserConfiguration').insert({'user_id': user_id, 'keywords': '*', 'merchants': '*'})
+                self.db.table('UserConfiguration').insert({'user_id': user_id, 'keywords': '*', 'merchants': '*', 'price': '*'})
                 result = True
 
             return result
@@ -72,6 +72,21 @@ class DBC:
             result = merchants.split(',')
         return result
 
+    def get_price(self, user_id):
+        result = []
+        
+        try:
+            self.db.table('UserConfiguration').search(where('user_id') == user_id)[0]['price']
+        except Exception:
+            user_configuration = self.db.table('UserConfiguration')
+            query = Query()
+            user_configuration.update({'price': '*'},
+                             query.user_id == user_id)
+
+        result = self.db.table('UserConfiguration').search(where('user_id') == user_id)[0]['price']
+        
+        return result
+
     def modify_keywords(self, keywords, user_id):
         user_configuration = self.db.table('UserConfiguration')
         query = Query()
@@ -82,6 +97,12 @@ class DBC:
         user_configuration = self.db.table('UserConfiguration')
         query = Query()
         user_configuration.update({'merchants': merchants.replace('"','')},
+                             query.user_id == user_id)
+
+    def modify_price(self, price, user_id):
+        user_configuration = self.db.table('UserConfiguration')
+        query = Query()
+        user_configuration.update({'price': price},
                              query.user_id == user_id)
 
     def get_keywords_str(self, user_id):
