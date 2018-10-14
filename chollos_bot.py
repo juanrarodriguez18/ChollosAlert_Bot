@@ -50,7 +50,7 @@ def init(config_path, token, db_path, refresh_chollos, log_level, log_path):
     logger = logging.getLogger()
 
     if get_config().log_path is not None:
-        fileHandler = RotatingFileHandler(logFile, mode='a', maxBytes=5*1024*1024, backupCount=2, encoding='utf-8', delay=0)
+        fileHandler = RotatingFileHandler(get_config().log_path, mode='a', maxBytes=5*1024*1024, backupCount=2, encoding='utf-8', delay=0)
         fileHandler.setFormatter(log_formatter)
         logger.addHandler(fileHandler)
 
