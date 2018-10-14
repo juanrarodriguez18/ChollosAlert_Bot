@@ -15,6 +15,7 @@
 #     You should have received a copy of the GNU General Public License
 #     along with ChollosAlert Bot.  If not, see <http:#www.gnu.org/licenses/>.
 import logging
+from logging.handlers import RotatingFileHandler
 from telegram.ext import Updater
 import click  # http://click.pocoo.org/6/
 from utils.scheduler import init_scheduler
@@ -49,7 +50,7 @@ def init(config_path, token, db_path, refresh_chollos, log_level, log_path):
     logger = logging.getLogger()
 
     if get_config().log_path is not None:
-        fileHandler = logging.FileHandler(get_config().log_path)
+        fileHandler = RotatingFileHandler(logFile, mode='a', maxBytes=5*1024*1024, backupCount=2, encoding='utf-8', delay=0)
         fileHandler.setFormatter(log_formatter)
         logger.addHandler(fileHandler)
 
