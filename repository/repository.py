@@ -130,8 +130,6 @@ class DBC:
                              query.user_id == user_id)
 
     def remove_user(self, user_id):
-        result = []
-        
         try:
             self.db.table('UserConfiguration').remove(where('user_id') == user_id)
             self.db.table('UserSentChollos').remove(where('user_id') == user_id)
