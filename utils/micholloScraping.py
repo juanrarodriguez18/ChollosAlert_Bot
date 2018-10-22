@@ -50,12 +50,12 @@ def extraer_datos_pagina_michollo():
         if chollo.find('span', {"class": "coupon_text"}) != None:
             cupon_chollo = chollo.find('span', {"class": "coupon_text"}).text.encode('utf-8').decode('utf-8').strip()
         if chollo.find('a', {"class": "btn_offer_block"}) != None:
-            link_chollo = chollo.find('a', {"class": "btn_offer_block"}).get('href').encode('utf-8').decode('utf-8').strip()
-
+            link_chollo = chollo.find('a', {"class": "btn_offer_block"}).get('url').encode('utf-8').decode('utf-8').strip()
+            
         chollo_object = Chollo(titulo_chollo, comercio_chollo, precio_chollo, descripcion_chollo, cupon_chollo, link_chollo)
         result.append(chollo_object)
     
     return result
 
 
-# extraer_datos_pagina()
+# extraer_datos_pagina_michollo()
