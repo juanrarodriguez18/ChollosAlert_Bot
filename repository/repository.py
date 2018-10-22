@@ -15,6 +15,7 @@
 #     You should have received a copy of the GNU General Public License
 #     along with ChollosAlert Bot.  If not, see <http:#www.gnu.org/licenses/>.
 import os
+import logging
 from tinydb import TinyDB, Query, where
 from tinydb.operations import add
 
@@ -127,3 +128,13 @@ class DBC:
         query = Query()
         user_configuration.update(add('chollos',[chollo]),
                              query.user_id == user_id)
+
+    def remove_user(self, user_id):
+        result = []
+        
+        try:
+            self.db.table('UserConfiguration').remove(where('user_id') == user_id)
+            self.db.table('UserSentChollos').remove(where('user_id') == user_id)
+        except Exception as e:
+            logging.error("Failed removing user")
+            logging.error(e)
