@@ -41,12 +41,12 @@ def extraer_datos_pagina_michollo():
         cupon_chollo = ''
         link_chollo = ''
 
-        if chollo.find('h3') != None:
-            titulo_chollo = chollo.find('h3').text.encode('utf-8').decode('utf-8').strip()
-        if chollo.find('span', {"class": "single_price_count"}) != None:
-            precio_chollo = chollo.find('span', {"class": "single_price_count"}).text.encode('utf-8').decode('utf-8').strip().split()[0]
-        if chollo.find('div', {"class": "newscom_detail"}) != None:
-            descripcion_chollo = chollo.find('div', {"class": "newscom_detail"}).find('p').text.encode('utf-8').decode('utf-8').strip()
+        if chollo.find('div', {"class": "newstitleblock"}) != None:
+            titulo_chollo = chollo.find('div', {"class": "newstitleblock"}).find('h2').text.encode('utf-8').decode('utf-8').strip()
+        if chollo.find('span', {"class": "rh_regular_price"}) != None:
+            precio_chollo = chollo.find('span', {"class": "rh_regular_price"}).text.encode('utf-8').decode('utf-8').strip().split()[0]
+        if chollo.find('div', {"class": "rh_gr_right_desc"}) != None:
+            descripcion_chollo = chollo.find('div', {"class": "rh_gr_right_desc"}).find('p').text.encode('utf-8').decode('utf-8').strip()
         if chollo.find('span', {"class": "coupon_text"}) != None:
             cupon_chollo = chollo.find('span', {"class": "coupon_text"}).text.encode('utf-8').decode('utf-8').strip()
         if chollo.find('a', {"class": "btn_offer_block"}) != None:
