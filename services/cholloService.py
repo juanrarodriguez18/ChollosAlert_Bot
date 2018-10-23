@@ -68,7 +68,7 @@ def check_chollos():
             else:
                 logging.error("Failed checking chollos")
                 logging.error(e)
-                logging.error("User ID: "+user_id)
+                logging.error("User ID: "+str(user_id))
             # get_bot().send_message(chat_id=user_id, parse_mode="Markdown", text="Something go really bad. You couldn't be notify of news chollos")
         return result
 
@@ -88,7 +88,7 @@ def check_chollos_first_time(user_id):
         except Exception as e:
             logging.error("Failed checking chollos")
             logging.error(e)
-            logging.error("User ID: "+user_id)
+            logging.error("User ID: "+str(user_id))
             # get_bot().send_message(chat_id=user_id, parse_mode="Markdown", text="Something go really bad. You couldn't be notify of news chollos")
         return result
 
