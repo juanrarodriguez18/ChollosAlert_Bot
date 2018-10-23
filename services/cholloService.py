@@ -63,7 +63,7 @@ def check_chollos():
                         notify_new_chollo(get_bot(), user_id, chollo)
                         # print(chollo.titulo+' - '+chollo.comercio)
         except Exception as e:
-            if(str(e) == 'Forbidden: bot was blocked by the user'):
+            if(str(e) == 'Forbidden: bot was blocked by the user' or str(e) == 'Chat not found'):
                 repository.get_dbc().remove_user(user_id)
             else:
                 logging.error("Failed checking chollos")
