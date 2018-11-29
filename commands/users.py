@@ -94,7 +94,7 @@ def modify_user_price(bot, update):
     pattern = re.compile("^(\d*,)?\d+$")
     text = ''
 
-    if pattern.match(price):
+    if pattern.match(price) or price=='*':
         get_dbc().modify_price(price, update.message.chat_id)
         text = "Se ha actualizado su Precio máximo."
     else:
