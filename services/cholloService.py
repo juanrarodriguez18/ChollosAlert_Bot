@@ -67,11 +67,11 @@ def check_chollos():
                         # print(chollo.titulo+' - '+chollo.comercio)
                 repository.get_dbc().replace_user_sent_chollos(sent_chollos, user_id)
         except Exception as e:
-            if(str(e) == 'Forbidden: bot was blocked by the user'):
+            if(str(e) == 'Forbidden: bot was blocked by the user' or str(e) == 'Chat not found'):
                 repository.get_dbc().remove_user(user_id)
             else:
                 logging.error("Failed checking chollos")
-                logging.error(e)
+                logging.error("User ID: "+str(user_id))
                 repository.get_dbc().replace_user_sent_chollos(sent_chollos, user_id)
             # get_bot().send_message(chat_id=user_id, parse_mode="Markdown", text="Something go really bad. You couldn't be notify of news chollos")
         return result
@@ -92,6 +92,7 @@ def check_chollos_first_time(user_id):
         except Exception as e:
             logging.error("Failed checking chollos")
             logging.error(e)
+            logging.error("User ID: "+str(user_id))
             # get_bot().send_message(chat_id=user_id, parse_mode="Markdown", text="Something go really bad. You couldn't be notify of news chollos")
         return result
 
