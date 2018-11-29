@@ -17,7 +17,7 @@
 import os
 import logging
 from tinydb import TinyDB, Query, where
-from tinydb.operations import add
+from tinydb.operations import add, delete
 
 
 db = None
@@ -128,6 +128,13 @@ class DBC:
         query = Query()
         user_configuration.update(add('chollos',[chollo]),
                              query.user_id == user_id)
+
+    def replace_user_sent_chollos(self, chollos, user_id):
+        user_configuration = self.db.table('UserSentChollos')
+        query = Query()
+        eid = user_configuration.get(where('user_id') == user_id).eid
+        user_configuration.remove(eids=[eid])
+        self.db.table('UserSentChollos').insert({'user_id': user_id, 'chollos': chollos})
 
     def remove_user(self, user_id):
         try:

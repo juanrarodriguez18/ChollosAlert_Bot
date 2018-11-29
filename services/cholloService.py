@@ -56,18 +56,23 @@ def check_chollos():
                 user_id = userConfiguration['user_id']
                 chollos = get_user_chollos(user_id)
                 repository.get_dbc().insert_user_sent_chollos(user_id)
+                sent_chollos = []
                 for chollo in chollos:
-                    if chollo.link not in repository.get_dbc().get_user_sent_chollos(user_id):
+                    if chollo.link:
+                        sent_chollos.append(chollo.link)
+                    if chollo.link and chollo.link not in repository.get_dbc().get_user_sent_chollos(user_id):
                         result.append(chollo)
-                        repository.get_dbc().add_user_sent_chollo(chollo.link, user_id)
+                        # repository.get_dbc().add_user_sent_chollo(chollo.link, user_id)
                         notify_new_chollo(get_bot(), user_id, chollo)
                         # print(chollo.titulo+' - '+chollo.comercio)
+                repository.get_dbc().replace_user_sent_chollos(sent_chollos, user_id)
         except Exception as e:
             if(str(e) == 'Forbidden: bot was blocked by the user'):
                 repository.get_dbc().remove_user(user_id)
             else:
                 logging.error("Failed checking chollos")
                 logging.error(e)
+                repository.get_dbc().replace_user_sent_chollos(sent_chollos, user_id)
             # get_bot().send_message(chat_id=user_id, parse_mode="Markdown", text="Something go really bad. You couldn't be notify of news chollos")
         return result
 
