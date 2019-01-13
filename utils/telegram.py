@@ -42,6 +42,6 @@ def notify_new_chollo(bot, user_id, chollo):
     return msg_send is not None
 
 def amazonLinks(link):
-    affiliate_suffix = '/ref=as_li_ss_tl?ie=UTF8&linkCode=ll1&tag=juanrarodrigu-21&linkId=520859baf77f9130bb84e34c22ed229e&language=es_ES'
+    affiliate_suffix = '/?tag=juanrarodrigu-21'
     r = requests.get(link)
     return r.url+affiliate_suffix
