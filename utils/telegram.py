@@ -14,11 +14,13 @@
 #
 #     You should have received a copy of the GNU General Public License
 #     along with ChollosAlert Bot.  If not, see <http:#www.gnu.org/licenses/>.
+import requests
 
 def notify_new_chollo(bot, user_id, chollo):
     comercio = ''
     precio = ''
     cupon = ''
+    link = chollo.link
 
     if chollo.comercio:
         comercio = '#'+chollo.comercio
@@ -32,6 +34,14 @@ def notify_new_chollo(bot, user_id, chollo):
     if chollo.cupon:
         cupon = '🔖 Cupón: '+chollo.cupon+'\n'
 
-    chollo_string = '*'+chollo.titulo+'* '+comercio+'\n'+precio+'\n'+cupon+'\n'+chollo.descripcion+'\n\n 🔗 '+chollo.link+'\n\n'
+    if 'amazon' in chollo.comercio.lower():
+        link = amazonLinks(chollo.link)
+
+    chollo_string = '*'+chollo.titulo+'* '+comercio+'\n'+precio+'\n'+cupon+'\n'+chollo.descripcion+'\n\n 🔗 '+link+'\n\n'
     msg_send = bot.send_message(chat_id=user_id, parse_mode="Markdown", text=chollo_string)
     return msg_send is not None
+
+def amazonLinks(link):
+    affiliate_suffix = '/ref=as_li_ss_tl?ie=UTF8&linkCode=ll1&tag=juanrarodrigu-21&linkId=520859baf77f9130bb84e34c22ed229e&language=es_ES'
+    r = requests.get(link)
+    return r.url+affiliate_suffix

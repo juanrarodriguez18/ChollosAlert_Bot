@@ -43,6 +43,8 @@ def extraer_datos_pagina_michollo():
 
         if chollo.find('div', {"class": "newstitleblock"}) != None:
             titulo_chollo = chollo.find('div', {"class": "newstitleblock"}).find('h2').text.encode('utf-8').decode('utf-8').strip()
+        if chollo.find('span', {"class": "store_post_meta_item"}) != None:
+            comercio_chollo = chollo.find('span', {"class": "store_post_meta_item"}).find('a').text.encode('utf-8').decode('utf-8').strip()
         if chollo.find('span', {"class": "rh_regular_price"}) != None:
             precio_chollo = chollo.find('span', {"class": "rh_regular_price"}).text.encode('utf-8').decode('utf-8').strip().split()[0]
         if chollo.find('div', {"class": "rh_gr_right_desc"}) != None:
@@ -58,4 +60,4 @@ def extraer_datos_pagina_michollo():
     return result
 
 
-# extraer_datos_pagina_michollo()
+extraer_datos_pagina_michollo()
