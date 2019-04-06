@@ -47,5 +47,5 @@ def amazonLinks(link):
     r = requests.get(link)
     if '?' in r:
         return r.split('?')[0]+affiliate_suffix_without_ref
-    else
+    else:
         return r.url+affiliate_suffix
