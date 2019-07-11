@@ -42,8 +42,8 @@ def notify_new_chollo(bot, user_id, chollo):
     return msg_send is not None
 
 def amazonLinks(link):
-    affiliate_suffix = '/ref=as_li_ss_tl?ie=UTF8&psc=1&linkCode=ll1&tag=juanrarodrigu-21'
-    affiliate_suffix_without_ref = '?ie=UTF8&psc=1&linkCode=ll1&tag=juanrarodrigu-21'
+    affiliate_suffix = '/ref=as_li_ss_tl?ie=UTF8&psc=1&linkCode=ll1&tag=juanrarodri02-21'
+    affiliate_suffix_without_ref = '?ie=UTF8&psc=1&linkCode=ll1&tag=juanrarodri02-21'
     r = requests.get(link)
     if '?' in r:
         return r.split('?')[0]+affiliate_suffix_without_ref
