@@ -54,7 +54,7 @@ def extraer_datos_pagina_michollo():
         if chollo.find('div', {"class": "btn_offer_block"}) != None:
             link_chollo = chollo.find('div', {"class": "btn_offer_block"}).get('url').encode('utf-8').decode('utf-8').strip()
 
-        # print("Titulo: "+titulo_chollo+" | Comercio: "+comercio_chollo+" | Precio: "+precio_chollo+" | Descripcion: "+
+        #print("Titulo: "+titulo_chollo+" | Comercio: "+comercio_chollo+" | Precio: "+precio_chollo+" | Descripcion: "+
         #         descripcion_chollo+" | Cupon: "+cupon_chollo+" | Link: "+link_chollo)
         chollo_object = Chollo(titulo_chollo, comercio_chollo, precio_chollo, descripcion_chollo, cupon_chollo, link_chollo)
         result.append(chollo_object)

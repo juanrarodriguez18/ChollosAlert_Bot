@@ -37,13 +37,13 @@ def notify_new_chollo(bot, user_id, chollo):
     if 'amazon' in chollo.comercio.lower():
         link = amazonLinks(chollo.link)
 
-    chollo_string = '*'+chollo.titulo+'* '+comercio+'\n'+precio+'\n'+cupon+'\n'+chollo.descripcion+'\n\n 🔗 '+link+'\n\n'
-    msg_send = bot.send_message(chat_id=user_id, parse_mode="Markdown", text=chollo_string)
+    chollo_string = '<b>'+chollo.titulo+'</b> '+comercio+'\n'+precio+'\n'+cupon+'\n'+chollo.descripcion+'\n\n 🔗 '+link+'\n\n'
+    msg_send = bot.send_message(chat_id=user_id, parse_mode="html", text=chollo_string)
     return msg_send is not None
 
 def amazonLinks(link):
-    affiliate_suffix = '/ref=as_li_ss_tl?ie=UTF8&psc=1&linkCode=ll1&tag=juanrarodri02-21'
-    affiliate_suffix_without_ref = '?ie=UTF8&psc=1&linkCode=ll1&tag=juanrarodri02-21'
+    affiliate_suffix = '/ref=as_li_ss_tl?ie=UTF8&psc=1&linkCode=ll1&tag=juanrarodri05-21'
+    affiliate_suffix_without_ref = '?ie=UTF8&psc=1&linkCode=ll1&tag=juanrarodri05-21'
     r = requests.get(link)
     if '?' in r:
         return r.split('?')[0]+affiliate_suffix_without_ref

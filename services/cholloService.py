@@ -72,6 +72,7 @@ def check_chollos():
             else:
                 logging.error("Failed checking chollos")
                 logging.error("User ID: "+str(user_id))
+                logging.error(str(e))
                 repository.get_dbc().replace_user_sent_chollos(sent_chollos, user_id)
             # get_bot().send_message(chat_id=user_id, parse_mode="Markdown", text="Something go really bad. You couldn't be notify of news chollos")
         return result
