@@ -20,14 +20,28 @@ import requests
 from repository.chollo import Chollo
 
 from bs4 import BeautifulSoup
+from selenium import webdriver
+from webdriver_manager.chrome import ChromeDriverManager
+from selenium.webdriver.chrome.options import Options  
+import time
 
 def extraer_datos_pagina_chollometro():
     url = 'https://www.chollometro.com/nuevos'
-    headers = {'User-Agent':'Mozilla/5.0'}
 
+    options = Options()
+    options.add_argument("--headless")
+    driver = webdriver.Chrome(ChromeDriverManager().install(), chrome_options=options)
+    options = webdriver.ChromeOptions()
+    options.add_argument('headless')
+    driver.get(url)
 
-    page = requests.get(url, headers=headers)
-    soup = BeautifulSoup(page.text, "html.parser")
+    ScrollNumber = 500
+    for i in range(1,ScrollNumber):
+        driver.execute_script("window.scrollTo(1,10000)")
+        # time.sleep(5)
+
+    
+    soup = BeautifulSoup(driver.page_source,'html.parser')
     chollos = soup.find_all('article')
 
     result = []
@@ -54,9 +68,13 @@ def extraer_datos_pagina_chollometro():
         if chollo.find('a', {"class": "btn--mode-primary"}) != None:
             link_chollo = chollo.find('a', {"class": "btn--mode-primary"}).get('href').encode('utf-8').decode('utf-8').strip()
 
+        #print("Titulo: "+titulo_chollo+" | Comercio: "+comercio_chollo+" | Precio: "+precio_chollo+" | Descripcion: "+
+        #         descripcion_chollo+" | Cupon: "+cupon_chollo+" | Link: "+link_chollo)
         chollo_object = Chollo(titulo_chollo, comercio_chollo, precio_chollo, descripcion_chollo, cupon_chollo, link_chollo)
         result.append(chollo_object)
     
+    
+
     return result
 
 

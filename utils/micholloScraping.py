@@ -28,7 +28,7 @@ def extraer_datos_pagina_michollo():
 
     page = requests.get(url, headers=headers)
     soup = BeautifulSoup(page.text, "html.parser")
-    chollos = soup.find_all('div', {"class": "news-community"})
+    chollos = soup.find_all('article', {"class": "offer_grid_com"})
 
     result = []
 
@@ -41,23 +41,25 @@ def extraer_datos_pagina_michollo():
         cupon_chollo = ''
         link_chollo = ''
 
-        if chollo.find('div', {"class": "newstitleblock"}) != None:
-            titulo_chollo = chollo.find('div', {"class": "newstitleblock"}).find('h2').text.encode('utf-8').decode('utf-8').strip()
-        if chollo.find('span', {"class": "store_post_meta_item"}) != None:
-            comercio_chollo = chollo.find('span', {"class": "store_post_meta_item"}).find('a').text.encode('utf-8').decode('utf-8').strip()
+        if chollo.find('h3') != None:
+            titulo_chollo = chollo.find('h3').find('a').text.encode('utf-8').decode('utf-8').strip()
+        if chollo.find('div', {"class": "cat_store_for_grid"}) != None:
+            comercio_chollo = chollo.find('div', {"class": "cat_store_for_grid"}).text.encode('utf-8').decode('utf-8').strip()
         if chollo.find('span', {"class": "rh_regular_price"}) != None:
             precio_chollo = chollo.find('span', {"class": "rh_regular_price"}).text.encode('utf-8').decode('utf-8').strip().split()[0]
-        if chollo.find('div', {"class": "rh_gr_right_desc"}) != None:
-            descripcion_chollo = chollo.find('div', {"class": "rh_gr_right_desc"}).find('p').text.encode('utf-8').decode('utf-8').strip()
+        if chollo.find('div', {"class": "grid_row_info"}) != None:
+            descripcion_chollo = chollo.find('div', {"class": "grid_row_info"}).find('h3').find('a').text.encode('utf-8').decode('utf-8').strip()
         if chollo.find('span', {"class": "coupon_text"}) != None:
             cupon_chollo = chollo.find('span', {"class": "coupon_text"}).text.encode('utf-8').decode('utf-8').strip()
-        if chollo.find('a', {"class": "btn_offer_block"}) != None:
-            link_chollo = chollo.find('a', {"class": "btn_offer_block"}).get('url').encode('utf-8').decode('utf-8').strip()
-            
+        if chollo.find('div', {"class": "btn_offer_block"}) != None:
+            link_chollo = chollo.find('div', {"class": "btn_offer_block"}).get('url').encode('utf-8').decode('utf-8').strip()
+
+        # print("Titulo: "+titulo_chollo+" | Comercio: "+comercio_chollo+" | Precio: "+precio_chollo+" | Descripcion: "+
+        #         descripcion_chollo+" | Cupon: "+cupon_chollo+" | Link: "+link_chollo)
         chollo_object = Chollo(titulo_chollo, comercio_chollo, precio_chollo, descripcion_chollo, cupon_chollo, link_chollo)
         result.append(chollo_object)
     
     return result
 
 
-extraer_datos_pagina_michollo()
+# extraer_datos_pagina_michollo()

@@ -4,3 +4,5 @@ tinydb==3.5.0
 schedule==0.4.3
 beautifulsoup4
 requests
+selenium
+webdriver-manager
